@@ -1,0 +1,172 @@
+/* 하위 페이지(privacy / support / terms) 공통 스타일 — index.html 테마와 동일한 토큰 사용 */
+:root {
+  --bg: #0b1230;
+  --bg-2: #141d45;
+  --panel: rgba(28, 40, 92, 0.55);
+  --panel-solid: #18224f;
+  --line: rgba(120, 160, 255, 0.18);
+  --text: #e8ecff;
+  --muted: #9aa6d6;
+  --cyan: #5fd8ff;
+  --cyan-glow: rgba(95, 216, 255, 0.45);
+  --red: #e2453a;
+  --red-hi: #ff5d4f;
+  --b-orange: #d9893a;
+  --b-red: #d4443a;
+  --b-blue: #4a86d8;
+  --b-green: #6fae3c;
+  --display: "Black Han Sans", "Noto Sans KR", sans-serif;
+  --body: "Noto Sans KR", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", "Segoe UI", Roboto, sans-serif;
+}
+* { box-sizing: border-box; }
+html { scroll-padding-top: 80px; }
+body {
+  margin: 0;
+  font-family: var(--body);
+  line-height: 1.8;
+  color: var(--text);
+  background: linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 50%, var(--bg) 100%);
+  background-color: var(--bg);
+  overflow-x: hidden;
+}
+a { color: var(--cyan); }
+a:hover { color: #9be8ff; }
+
+/* 언어 토글 */
+html[data-lang="ko"] [lang="en"], html[data-lang="en"] [lang="ko"] { display: none !important; }
+
+.wrap { max-width: 1120px; margin: 0 auto; padding: 0 16px; }
+
+/* ---------- 헤더 ---------- */
+.site-header {
+  position: fixed; inset: 0 0 auto 0; z-index: 50;
+  transition: background .3s, box-shadow .3s;
+}
+.site-header.scrolled {
+  background: rgba(11, 18, 48, 0.88);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 1px 0 var(--line);
+}
+.site-header .wrap { display: flex; align-items: center; gap: 16px; height: 64px; }
+.logo {
+  font-family: var(--display); font-size: 1.35rem; letter-spacing: .04em;
+  color: #fff; text-decoration: none; white-space: nowrap;
+  text-shadow: 0 0 14px var(--cyan-glow);
+}
+.logo:hover { color: #fff; }
+.logo b { color: var(--red-hi); font-weight: inherit; }
+.nav { display: flex; gap: 22px; margin-left: auto; }
+.nav a { color: var(--text); text-decoration: none; font-weight: 500; font-size: .95rem; opacity: .85; }
+.nav a:hover, .nav a[aria-current="page"] { opacity: 1; color: var(--cyan); }
+.lang-switch {
+  display: flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden;
+  background: rgba(11, 18, 48, .5);
+}
+.lang-switch button {
+  font: 700 .78rem var(--body); color: var(--muted); background: none; border: 0;
+  padding: 6px 11px; cursor: pointer;
+}
+html[data-lang="ko"] .lang-switch [data-set="ko"],
+html[data-lang="en"] .lang-switch [data-set="en"] { background: var(--cyan); color: var(--bg); }
+
+/* ---------- 배너 ---------- */
+.banner {
+  position: relative; height: 240px; overflow: hidden;
+  display: flex; align-items: flex-end; padding-bottom: 36px;
+}
+.banner img {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; object-position: 50% 28%;
+  filter: saturate(1.1) brightness(.75);
+}
+.banner::before {
+  content: ""; position: absolute; inset: 0; z-index: 1;
+  background:
+    linear-gradient(90deg, rgba(11,18,48,.9) 0%, rgba(11,18,48,.4) 60%, rgba(11,18,48,.2) 100%),
+    linear-gradient(0deg, var(--bg) 0%, rgba(11,18,48,0) 70%);
+}
+.banner .wrap { position: relative; z-index: 2; width: 100%; }
+.banner .kicker {
+  font-size: .8rem; font-weight: 700; letter-spacing: .22em; color: var(--cyan); text-transform: uppercase;
+}
+.banner .title {
+  font-family: var(--display); font-weight: 400; font-size: clamp(2rem, 5vw, 3rem);
+  margin: 2px 0 0; line-height: 1.15; text-shadow: 0 0 22px var(--cyan-glow);
+}
+.blocks-deco { display: flex; gap: 6px; margin-top: 12px; }
+.blocks-deco span { width: 12px; height: 12px; border-radius: 3px; box-shadow: inset 0 -3px 0 rgba(0,0,0,.25); }
+.blocks-deco span:nth-child(1) { background: var(--b-orange); }
+.blocks-deco span:nth-child(2) { background: var(--b-red); }
+.blocks-deco span:nth-child(3) { background: var(--b-blue); }
+.blocks-deco span:nth-child(4) { background: var(--b-green); }
+
+/* ---------- 문서 본문 ---------- */
+.doc { max-width: 852px; margin: 8px auto 0; padding: 0 16px; }
+.doc-panel {
+  background: var(--panel); border: 1px solid var(--line); border-radius: 20px;
+  padding: 40px clamp(20px, 5vw, 52px) 44px;
+  box-shadow: 0 20px 50px rgba(0,0,0,.25);
+}
+.doc h1 {
+  font-family: var(--display); font-weight: 400; font-size: clamp(1.7rem, 4vw, 2.2rem);
+  line-height: 1.25; margin: 0 0 .6rem;
+}
+.doc h2 {
+  position: relative; font-size: 1.2rem; font-weight: 700; line-height: 1.4;
+  margin: 2.6rem 0 .9rem; padding: 0 0 .5rem 16px;
+  border-bottom: 1px solid var(--line);
+}
+.doc h2::before {
+  content: ""; position: absolute; left: 0; top: .2em; width: 6px; height: 1.05em;
+  border-radius: 2px; background: var(--cyan); box-shadow: 0 0 10px var(--cyan-glow);
+}
+.doc h3 { font-size: 1.04rem; font-weight: 700; margin: 1.6rem 0 .4rem; color: #fff; }
+.doc p, .doc li { color: #d3d9f5; }
+.doc ul, .doc ol { padding-left: 1.3rem; }
+.doc li { margin-bottom: .35rem; }
+.doc li::marker { color: var(--cyan); }
+.doc strong { color: #fff; }
+.doc .meta {
+  display: inline-block; color: var(--muted); font-size: .92rem;
+  background: rgba(11,18,48,.55); border: 1px solid var(--line); border-radius: 10px;
+  padding: 8px 14px; margin: .2rem 0 .6rem;
+}
+
+/* 표 (privacy) */
+.doc table {
+  display: block; overflow-x: auto; width: 100%;
+  border-collapse: collapse; margin: .8rem 0;
+}
+.doc th, .doc td { border: 1px solid var(--line); padding: 10px 14px; text-align: left; vertical-align: top; }
+.doc th { background: var(--panel-solid); color: #fff; width: 30%; min-width: 120px; }
+.doc td { background: rgba(11,18,48,.45); color: #d3d9f5; min-width: 180px; }
+
+/* 연락처·정보 박스 */
+.doc .contact, .doc .info {
+  border-radius: 14px; padding: 18px 22px; margin: 1.2rem 0;
+  background: radial-gradient(ellipse at 50% 0%, rgba(95,216,255,.14), transparent 70%), rgba(11,18,48,.55);
+  border: 1px solid var(--cyan-glow);
+  box-shadow: 0 0 30px rgba(95,216,255,.1);
+}
+.doc .contact > div:first-child { color: var(--muted); font-size: .92rem; }
+.doc .contact .email { font-size: 1.25rem; font-weight: 900; word-break: break-all; }
+.doc .contact .email a { color: #fff; text-decoration: none; text-shadow: 0 0 14px var(--cyan-glow); }
+.doc .contact .email a:hover { color: var(--cyan); }
+.doc .info p { margin: .2rem 0; }
+
+.back {
+  display: inline-flex; align-items: center; gap: 6px; margin-top: 28px;
+  font-weight: 700; text-decoration: none; color: var(--text);
+  padding: 10px 18px; border-radius: 10px; border: 1px solid var(--cyan-glow); background: rgba(95,216,255,.08);
+}
+.back:hover { color: var(--text); box-shadow: 0 0 18px var(--cyan-glow); }
+
+/* ---------- 푸터 ---------- */
+footer { margin-top: 80px; padding: 32px 0 48px; border-top: 1px solid var(--line); color: var(--muted); font-size: .88rem; }
+footer p { margin: .25rem 0; }
+
+@media (max-width: 720px) {
+  .nav { display: none; }
+  .lang-switch { margin-left: auto; }
+  .banner { height: 200px; padding-bottom: 26px; }
+}

@@ -1,159 +1,444 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" data-lang="ko">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>리트라이스튜디오 Retry Studio</title>
 <meta name="description" content="리트라이스튜디오(Retry Studio)의 공식 홈페이지입니다. Official website of Retry Studio, a mobile game studio.">
+<meta name="theme-color" content="#0b1230">
+<meta property="og:type" content="website">
+<meta property="og:title" content="리트라이스튜디오 Retry Studio">
+<meta property="og:description" content="넘어져도 다시, Retry. 모바일 게임 스튜디오 리트라이스튜디오입니다.">
+<meta property="og:image" content="https://retrystudio1021.github.io/images/hero.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<script>
+  // 언어 결정: #en/#ko 앵커 > 저장된 선택 > 브라우저 언어
+  (function () {
+    var lang = null, h = location.hash;
+    if (h === '#en' || h === '#ko') lang = h.slice(1);
+    if (!lang) { try { lang = localStorage.getItem('rs-lang'); } catch (e) {} }
+    if (lang !== 'ko' && lang !== 'en') {
+      lang = /^ko\b/i.test(navigator.language || 'ko') ? 'ko' : 'en';
+    }
+    document.documentElement.setAttribute('data-lang', lang);
+    document.documentElement.lang = lang;
+  })();
+</script>
 <style>
+  :root {
+    --bg: #0b1230;
+    --bg-2: #141d45;
+    --panel: rgba(28, 40, 92, 0.55);
+    --panel-solid: #18224f;
+    --line: rgba(120, 160, 255, 0.18);
+    --text: #e8ecff;
+    --muted: #9aa6d6;
+    --cyan: #5fd8ff;
+    --cyan-glow: rgba(95, 216, 255, 0.45);
+    --red: #e2453a;
+    --red-hi: #ff5d4f;
+    --b-orange: #d9893a;
+    --b-red: #d4443a;
+    --b-blue: #4a86d8;
+    --b-green: #6fae3c;
+    --display: "Black Han Sans", "Noto Sans KR", sans-serif;
+    --body: "Noto Sans KR", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", "Segoe UI", Roboto, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 72px; }
   body {
-    font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Segoe UI", Roboto, sans-serif;
+    margin: 0;
+    font-family: var(--body);
     line-height: 1.7;
-    color: #222;
-    max-width: 760px;
-    margin: 0 auto;
-    padding: 24px 16px 64px;
+    color: var(--text);
+    background: linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 60%, var(--bg) 100%);
+    background-color: var(--bg);
+    overflow-x: hidden;
   }
-  h1 { font-size: 1.8rem; margin-bottom: 0.3rem; }
-  h2 { font-size: 1.2rem; margin-top: 2.2rem; padding-bottom: 0.3rem; border-bottom: 1px solid #ddd; }
-  ul { padding-left: 1.3rem; }
-  .lang-nav { margin-bottom: 1.5rem; }
-  .lang-nav a { margin-right: 12px; }
-  .tagline { color: #555; margin-top: 0; }
-  .links {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 12px;
-    margin: 1rem 0;
+  a { color: var(--cyan); }
+  img { max-width: 100%; display: block; }
+
+  /* 언어 토글 */
+  html[data-lang="ko"] [lang="en"], html[data-lang="en"] [lang="ko"] { display: none !important; }
+
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 16px; }
+
+  /* ---------- 헤더 ---------- */
+  .site-header {
+    position: fixed; inset: 0 0 auto 0; z-index: 50;
+    transition: background .3s, box-shadow .3s;
   }
-  .links a {
-    display: block;
-    background: #f5f5f5;
-    border-radius: 8px;
-    padding: 14px 18px;
-    color: #222;
-    text-decoration: none;
+  .site-header.scrolled {
+    background: rgba(11, 18, 48, 0.88);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 1px 0 var(--line);
   }
-  .links a:hover { background: #ebebeb; }
-  .links strong { display: block; font-size: 1.02rem; }
-  .links span { font-size: 0.9rem; color: #555; }
-  .games { list-style: none; padding-left: 0; }
-  .games li { padding: 10px 0; border-bottom: 1px solid #eee; }
-  .games .stores { display: block; margin-top: 2px; font-size: 0.92rem; }
-  .games .stores a { margin-right: 14px; }
+  .site-header .wrap { display: flex; align-items: center; gap: 16px; height: 64px; }
+  .logo {
+    font-family: var(--display); font-size: 1.35rem; letter-spacing: .04em;
+    color: #fff; text-decoration: none; white-space: nowrap;
+    text-shadow: 0 0 14px var(--cyan-glow);
+  }
+  .logo b { color: var(--red-hi); font-weight: inherit; }
+  .nav { display: flex; gap: 22px; margin-left: auto; }
+  .nav a { color: var(--text); text-decoration: none; font-weight: 500; font-size: .95rem; opacity: .85; }
+  .nav a:hover { opacity: 1; color: var(--cyan); }
+  .lang-switch {
+    display: flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden;
+    background: rgba(11, 18, 48, .5);
+  }
+  .lang-switch button {
+    font: 700 .78rem var(--body); color: var(--muted); background: none; border: 0;
+    padding: 6px 11px; cursor: pointer;
+  }
+  html[data-lang="ko"] .lang-switch [data-set="ko"],
+  html[data-lang="en"] .lang-switch [data-set="en"] { background: var(--cyan); color: var(--bg); }
+
+  /* ---------- 히어로 ---------- */
+  .hero {
+    position: relative; min-height: 100vh; min-height: 100svh;
+    display: flex; align-items: flex-end; overflow: hidden;
+    padding-bottom: 12vh;
+  }
+  .hero-bg {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; object-position: 50% 55%;
+    animation: heroZoom 18s ease-out both;
+  }
+  .hero::before {
+    content: ""; position: absolute; inset: 0; z-index: 1;
+    background:
+      linear-gradient(90deg, rgba(11,18,48,.92) 0%, rgba(11,18,48,.55) 38%, rgba(11,18,48,0) 65%),
+      linear-gradient(0deg, var(--bg) 0%, rgba(11,18,48,0) 35%);
+  }
+  .hero-content { position: relative; z-index: 3; width: 100%; }
+  .eyebrow {
+    display: inline-block; font-size: .8rem; font-weight: 700; letter-spacing: .2em;
+    color: var(--cyan); text-transform: uppercase;
+    padding: 4px 12px; border: 1px solid var(--cyan-glow); border-radius: 999px;
+    background: rgba(95,216,255,.08); margin-bottom: 18px;
+  }
+  .hero h1 {
+    font-family: var(--display); font-weight: 400;
+    font-size: clamp(2.8rem, 8vw, 5.6rem); line-height: 1.02; margin: 0;
+    letter-spacing: .01em;
+    text-shadow: 0 0 24px var(--cyan-glow), 0 4px 0 rgba(0,0,0,.35);
+  }
+  .hero h1 .sub {
+    display: block; font-size: .42em; color: var(--muted); margin-top: 10px; text-shadow: none;
+  }
+  .tagline {
+    font-size: clamp(1.05rem, 2.2vw, 1.35rem); font-weight: 500; margin: 18px 0 30px; max-width: 520px;
+  }
+  .tagline em { color: var(--red-hi); font-style: normal; font-weight: 900; }
+  .cta { display: flex; flex-wrap: wrap; gap: 12px; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    font: 700 1rem var(--body); text-decoration: none;
+    padding: 13px 26px; border-radius: 10px; border: 2px solid transparent;
+    transition: transform .15s, box-shadow .2s, background .2s;
+  }
+  .btn:hover { transform: translateY(-2px); }
+  .btn-primary {
+    background: linear-gradient(180deg, var(--red-hi), var(--red)); color: #fff;
+    box-shadow: 0 4px 0 #8f231c, 0 8px 24px rgba(226,69,58,.35);
+  }
+  .btn-primary:hover { box-shadow: 0 6px 0 #8f231c, 0 12px 30px rgba(226,69,58,.5); }
+  .btn-ghost { color: var(--text); border-color: var(--cyan-glow); background: rgba(95,216,255,.08); }
+  .btn-ghost:hover { box-shadow: 0 0 20px var(--cyan-glow); }
+
+  /* 크리스탈 파티클 */
+  .particles { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+  .particles i {
+    position: absolute; bottom: -10px; width: 6px; height: 6px; border-radius: 1px;
+    background: var(--cyan); box-shadow: 0 0 10px 2px var(--cyan-glow);
+    transform: rotate(45deg); opacity: 0;
+    animation: rise linear infinite;
+  }
+  .particles i:nth-child(1)  { left: 8%;  animation-duration: 9s;  animation-delay: 0s; }
+  .particles i:nth-child(2)  { left: 18%; animation-duration: 12s; animation-delay: 2s; width: 4px; height: 4px; }
+  .particles i:nth-child(3)  { left: 29%; animation-duration: 10s; animation-delay: 4s; }
+  .particles i:nth-child(4)  { left: 41%; animation-duration: 14s; animation-delay: 1s; width: 3px; height: 3px; }
+  .particles i:nth-child(5)  { left: 52%; animation-duration: 11s; animation-delay: 6s; }
+  .particles i:nth-child(6)  { left: 63%; animation-duration: 13s; animation-delay: 3s; width: 4px; height: 4px; }
+  .particles i:nth-child(7)  { left: 72%; animation-duration: 9s;  animation-delay: 5s; }
+  .particles i:nth-child(8)  { left: 81%; animation-duration: 12s; animation-delay: 7s; width: 3px; height: 3px; }
+  .particles i:nth-child(9)  { left: 90%; animation-duration: 10s; animation-delay: 2.5s; }
+  .particles i:nth-child(10) { left: 95%; animation-duration: 15s; animation-delay: 8s; width: 4px; height: 4px; }
+  .particles i:nth-child(11) { left: 35%; animation-duration: 16s; animation-delay: 9s; width: 3px; height: 3px; }
+  .particles i:nth-child(12) { left: 58%; animation-duration: 12s; animation-delay: 10s; }
+  @keyframes rise {
+    0%   { transform: translateY(0) rotate(45deg); opacity: 0; }
+    10%  { opacity: .9; }
+    80%  { opacity: .6; }
+    100% { transform: translateY(-100vh) rotate(405deg); opacity: 0; }
+  }
+  @keyframes heroZoom { from { transform: scale(1.08); } to { transform: scale(1); } }
+
+  .scroll-hint {
+    position: absolute; left: 50%; bottom: 22px; z-index: 3; transform: translateX(-50%);
+    width: 26px; height: 42px; border: 2px solid rgba(232,236,255,.5); border-radius: 14px;
+  }
+  .scroll-hint::after {
+    content: ""; position: absolute; left: 50%; top: 8px; width: 4px; height: 8px; margin-left: -2px;
+    background: var(--cyan); border-radius: 2px; animation: wheel 1.6s ease-in-out infinite;
+  }
+  @keyframes wheel { 0% { transform: translateY(0); opacity: 1; } 100% { transform: translateY(14px); opacity: 0; } }
+
+  /* ---------- 섹션 공통 ---------- */
+  section.block { padding: 96px 0 24px; }
+  .section-head { margin-bottom: 36px; }
+  .section-head .kicker {
+    font-size: .8rem; font-weight: 700; letter-spacing: .22em; color: var(--cyan); text-transform: uppercase;
+  }
+  .section-head h2 {
+    font-family: var(--display); font-weight: 400; font-size: clamp(2rem, 4.5vw, 2.8rem);
+    margin: 4px 0 0; line-height: 1.15;
+  }
+  .blocks-deco { display: flex; gap: 6px; margin-top: 14px; }
+  .blocks-deco span { width: 14px; height: 14px; border-radius: 3px; box-shadow: inset 0 -3px 0 rgba(0,0,0,.25); }
+  .blocks-deco span:nth-child(1) { background: var(--b-orange); }
+  .blocks-deco span:nth-child(2) { background: var(--b-red); }
+  .blocks-deco span:nth-child(3) { background: var(--b-blue); }
+  .blocks-deco span:nth-child(4) { background: var(--b-green); }
+
+  /* ---------- 게임 카드 ---------- */
+  .games { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 28px; }
+  .game {
+    position: relative; border-radius: 18px; overflow: hidden;
+    background: var(--panel-solid); border: 1px solid var(--line);
+    transition: transform .25s, box-shadow .25s, border-color .25s;
+  }
+  .game:hover { transform: translateY(-6px); border-color: var(--cyan-glow); box-shadow: 0 18px 40px rgba(0,0,0,.4), 0 0 30px rgba(95,216,255,.2); }
+  .game-art { position: relative; aspect-ratio: 16 / 9; overflow: hidden; }
+  .game-art img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s; }
+  .game:hover .game-art img { transform: scale(1.06); }
+  .game-art::after { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg, var(--panel-solid) 0%, rgba(24,34,79,0) 55%); }
+  .art-blocks img { object-position: 50% 95%; }
+  .art-dungeon img { object-position: 50% 22%; filter: hue-rotate(-25deg) saturate(1.15); }
+  .badge {
+    position: absolute; top: 14px; left: 14px; z-index: 2;
+    font-size: .75rem; font-weight: 700; padding: 4px 10px; border-radius: 6px; color: #fff;
+  }
+  .badge.puzzle { background: var(--b-orange); }
+  .badge.survival { background: var(--b-blue); }
+  .game-body { position: relative; padding: 4px 24px 24px; margin-top: -24px; z-index: 2; }
+  .game-body h3 { font-family: var(--display); font-weight: 400; font-size: 1.7rem; margin: 0; line-height: 1.25; }
+  .game-body p { color: var(--muted); margin: 8px 0 18px; font-size: .95rem; }
+  .stores { display: flex; flex-wrap: wrap; gap: 10px; }
+  .store {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 9px 16px; border-radius: 10px; font-size: .9rem; font-weight: 700;
+    color: var(--text); text-decoration: none;
+    background: rgba(11,18,48,.7); border: 1px solid var(--line);
+    transition: border-color .2s, background .2s;
+  }
+  .store:hover { border-color: var(--cyan); background: rgba(95,216,255,.1); }
+  .store svg { width: 18px; height: 18px; fill: currentColor; }
+
+  /* ---------- 안내 ---------- */
+  .info { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr)); gap: 18px; }
+  .info a {
+    display: block; text-decoration: none; color: var(--text);
+    background: var(--panel); border: 1px solid var(--line); border-top: 4px solid var(--b-blue);
+    border-radius: 14px; padding: 22px 22px 20px;
+    transition: transform .2s, background .2s;
+  }
+  .info a:nth-child(1) { border-top-color: var(--b-red); }
+  .info a:nth-child(2) { border-top-color: var(--b-orange); }
+  .info a:nth-child(3) { border-top-color: var(--b-green); }
+  .info a:hover { transform: translateY(-4px); background: rgba(40,56,120,.6); }
+  .info strong { display: block; font-size: 1.15rem; margin-bottom: 4px; }
+  .info strong::after { content: " →"; color: var(--cyan); }
+  .info span { color: var(--muted); font-size: .92rem; }
+
+  /* ---------- 문의 ---------- */
   .contact {
-    background: #f5f5f5;
-    border-radius: 8px;
-    padding: 16px 20px;
-    margin: 1rem 0;
+    position: relative; text-align: center; border-radius: 20px; padding: 44px 20px;
+    background: radial-gradient(ellipse at 50% 0%, rgba(95,216,255,.18), transparent 70%), var(--panel);
+    border: 1px solid var(--cyan-glow);
+    box-shadow: 0 0 40px rgba(95,216,255,.12), inset 0 0 40px rgba(95,216,255,.06);
   }
-  .contact .email { font-size: 1.15rem; font-weight: 600; }
-  .divider { margin: 4rem 0 2rem; border: 0; border-top: 2px solid #999; }
-  footer { margin-top: 3rem; padding-top: 1.2rem; border-top: 1px solid #ddd; color: #555; font-size: 0.9rem; }
-  footer p { margin: 0.2rem 0; }
-  footer .footer-links a { margin-right: 14px; }
+  .contact p { color: var(--muted); margin: 0 0 10px; }
+  .contact .email {
+    display: inline-block; font-size: clamp(1.1rem, 3.5vw, 1.6rem); font-weight: 900;
+    color: #fff; text-decoration: none; word-break: break-all;
+    text-shadow: 0 0 16px var(--cyan-glow);
+  }
+  .contact .email:hover { color: var(--cyan); }
+
+  /* ---------- 푸터 ---------- */
+  footer { margin-top: 96px; padding: 32px 0 48px; border-top: 1px solid var(--line); color: var(--muted); font-size: .88rem; }
+  footer p { margin: .25rem 0; }
+
+  /* ---------- 반응형 ---------- */
+  @media (max-width: 720px) {
+    .nav { display: none; }
+    .lang-switch { margin-left: auto; }
+    .hero { padding-bottom: 90px; }
+    .hero-bg { object-position: 50% 40%; }
+    .hero::before {
+      background: linear-gradient(0deg, var(--bg) 0%, rgba(11,18,48,.85) 32%, rgba(11,18,48,.1) 65%, rgba(11,18,48,.35) 100%);
+    }
+    .games { grid-template-columns: 1fr; }
+    section.block { padding-top: 72px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .particles, .scroll-hint::after { display: none; }
+    .hero-bg { animation: none; }
+    .btn, .game, .info a, .game-art img { transition: none; }
+  }
 </style>
 </head>
 <body>
 
-<p class="lang-nav"><a href="#ko">한국어</a><a href="#en">English</a></p>
+<header class="site-header" id="top">
+  <div class="wrap">
+    <a class="logo" href="#top">RETRY<b>·</b>STUDIO</a>
+    <nav class="nav" aria-label="Main">
+      <a href="#games"><span lang="ko">게임</span><span lang="en">Games</span></a>
+      <a href="#info"><span lang="ko">안내</span><span lang="en">Information</span></a>
+      <a href="#contact"><span lang="ko">문의</span><span lang="en">Contact</span></a>
+    </nav>
+    <div class="lang-switch" role="group" aria-label="Language">
+      <button type="button" data-set="ko">KO</button>
+      <button type="button" data-set="en">EN</button>
+    </div>
+  </div>
+</header>
 
-<!-- ===================== 한국어 ===================== -->
-<section id="ko" lang="ko">
+<main>
 
-<h1>리트라이스튜디오</h1>
-<p class="tagline">Retry Studio · 모바일 게임 스튜디오</p>
-
-<p>리트라이스튜디오의 공식 홈페이지입니다.</p>
-
-<h2>게임</h2>
-<!-- 신작 출시 시 <li> 블록을 복사해 추가하세요. href="#" 를 실제 스토어 URL로 교체하세요. 스팀 등 다른 스토어는 <a>를 한 줄 더 추가하면 됩니다. -->
-<ul class="games">
-  <li>
-    <strong>가디언 서바이벌</strong>
-    <span class="stores">
-      <a href="#" target="_blank" rel="noopener">Google Play</a>
-      <a href="#" target="_blank" rel="noopener">App Store</a>
-    </span>
-  </li>
-  <li>
-    <strong>파고파고: 액션 퍼즐</strong>
-    <span class="stores">
-      <a href="#" target="_blank" rel="noopener">Google Play</a>
-      <a href="#" target="_blank" rel="noopener">App Store</a>
-    </span>
-  </li>
-</ul>
-
-<h2>안내</h2>
-<div class="links">
-  <a href="/support"><strong>고객지원</strong><span>문의, 오류 제보, 계정 삭제 안내</span></a>
-  <a href="/terms"><strong>이용약관</strong><span>서비스 이용 조건</span></a>
-  <a href="/privacy"><strong>개인정보 처리방침</strong><span>개인정보 처리 기준</span></a>
-</div>
-
-<h2>문의</h2>
-<div class="contact">
-  <div>문의 이메일</div>
-  <div class="email"><a href="mailto:retrystudio1021@gmail.com">retrystudio1021@gmail.com</a></div>
-</div>
-
+<!-- ===================== HERO ===================== -->
+<section class="hero">
+  <img class="hero-bg" src="images/hero.jpg" alt="" width="1024" height="1024" fetchpriority="high">
+  <div class="particles" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="hero-content">
+    <div class="wrap">
+      <span class="eyebrow">Mobile Game Studio</span>
+      <h1>RETRY STUDIO
+        <span class="sub">리트라이스튜디오</span>
+      </h1>
+      <p class="tagline">
+        <span lang="ko">넘어져도 다시, <em>Retry.</em><br>리트라이스튜디오의 공식 홈페이지입니다.</span>
+        <span lang="en">Fall down, get up, <em>Retry.</em><br>Welcome to the official website of Retry Studio.</span>
+      </p>
+      <div class="cta">
+        <a class="btn btn-primary" href="#games">▶ <span lang="ko">게임 보기</span><span lang="en">Our Games</span></a>
+        <a class="btn btn-ghost" href="#contact"><span lang="ko">문의하기</span><span lang="en">Contact Us</span></a>
+      </div>
+    </div>
+  </div>
+  <a class="scroll-hint" href="#games" aria-label="Scroll down"></a>
 </section>
 
-<hr class="divider">
+<!-- ===================== GAMES ===================== -->
+<section class="block" id="games">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">Games</div>
+      <h2><span lang="ko">우리의 게임</span><span lang="en">Our Games</span></h2>
+      <div class="blocks-deco" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+    </div>
 
-<!-- ===================== English ===================== -->
-<section id="en" lang="en">
+    <!-- 신작 출시 시 <article class="game"> 블록을 복사해 추가하세요. 스토어 주소는 https 웹 주소를 사용하세요 (예: https://play.google.com/store/apps/details?id=패키지명, https://apps.apple.com/app/id앱ID). 스팀 등 다른 스토어는 <a class="store">를 한 줄 더 추가하면 됩니다. -->
+    <div class="games">
+      <article class="game">
+        <div class="game-art art-dungeon">
+          <img src="images/hero.jpg" alt="" loading="lazy" width="1024" height="1024">
+          <span class="badge survival"><span lang="ko">서바이벌</span><span lang="en">Survival</span></span>
+        </div>
+        <div class="game-body">
+          <h3><span lang="ko">가디언 서바이벌</span><span lang="en">Guardian Survival</span></h3>
+          <p><span lang="ko">끝없이 몰려오는 적들 속에서 살아남으세요.</span><span lang="en">Survive against endless waves of enemies.</span></p>
+          <div class="stores">
+            <a class="store" href="https://play.google.com/store/apps/details?id=com.retrystudio.GuardianSurvival" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.6 1.8 13.8 12 3.6 22.2c-.4-.2-.6-.6-.6-1.1V2.9c0-.5.2-.9.6-1.1Zm11.3 11.3 2.4 2.4-11.2 6.4 8.8-8.8Zm3.6-3.6L21 11c.6.4.6 1.6 0 2l-2.5 1.5-2.6-2.5 2.6-2.5ZM6.1 2.1l11.2 6.4-2.4 2.4-8.8-8.8Z"/></svg>Google Play</a>
+            <a class="store" href="https://apps.apple.com/app/id6832416365" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.4 12.6c0-2.6 2.1-3.8 2.2-3.9-1.2-1.8-3.1-2-3.7-2-1.6-.2-3.1.9-3.9.9-.8 0-2-.9-3.4-.9-1.7 0-3.3 1-4.2 2.6-1.8 3.1-.5 7.7 1.3 10.2.9 1.2 1.9 2.6 3.2 2.6 1.3-.1 1.8-.8 3.3-.8 1.6 0 2 .8 3.4.8 1.4 0 2.3-1.3 3.1-2.5 1-1.4 1.4-2.8 1.4-2.9 0 0-2.7-1-2.7-4.1ZM13.9 4.9c.7-.9 1.2-2 1.1-3.2-1 0-2.3.7-3 1.6-.7.8-1.2 2-1.1 3.1 1.1.1 2.3-.6 3-1.5Z"/></svg>App Store</a>
+          </div>
+        </div>
+      </article>
 
-<h1>Retry Studio</h1>
-<p class="tagline">리트라이스튜디오 · Mobile Game Studio</p>
-
-<p>Welcome to the official website of Retry Studio.</p>
-
-<h2>Games</h2>
-<!-- Replace href="#" with the actual store URLs (same as the Korean section above). -->
-<ul class="games">
-  <li>
-    <strong>Guardian Survival</strong>
-    <span class="stores">
-      <a href="#" target="_blank" rel="noopener">Google Play</a>
-      <a href="#" target="_blank" rel="noopener">App Store</a>
-    </span>
-  </li>
-  <li>
-    <strong>Block Crusher: Action Puzzle</strong>
-    <span class="stores">
-      <a href="#" target="_blank" rel="noopener">Google Play</a>
-      <a href="#" target="_blank" rel="noopener">App Store</a>
-    </span>
-  </li>
-</ul>
-
-<h2>Information</h2>
-<div class="links">
-  <a href="/support"><strong>Support</strong><span>Contact, bug reports, account deletion</span></a>
-  <a href="/terms"><strong>Terms of Service</strong><span>Conditions for using our services</span></a>
-  <a href="/privacy"><strong>Privacy Policy</strong><span>How we handle personal information</span></a>
-</div>
-
-<h2>Contact</h2>
-<div class="contact">
-  <div>Contact email</div>
-  <div class="email"><a href="mailto:retrystudio1021@gmail.com">retrystudio1021@gmail.com</a></div>
-</div>
-
+      <article class="game">
+        <div class="game-art art-blocks">
+          <img src="images/hero.jpg" alt="" loading="lazy" width="1024" height="1024">
+          <span class="badge puzzle"><span lang="ko">액션 퍼즐</span><span lang="en">Action Puzzle</span></span>
+        </div>
+        <div class="game-body">
+          <h3><span lang="ko">파고파고: 액션 퍼즐</span><span lang="en">Block Crusher: Action Puzzle</span></h3>
+          <p><span lang="ko">블록을 부수고 던전 깊숙이 파고드는 액션 퍼즐.</span><span lang="en">Smash blocks and dig deep into the dungeon.</span></p>
+          <div class="stores">
+            <a class="store" href="https://play.google.com/store/apps/details?id=com.retrystudio.P2Driller" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.6 1.8 13.8 12 3.6 22.2c-.4-.2-.6-.6-.6-1.1V2.9c0-.5.2-.9.6-1.1Zm11.3 11.3 2.4 2.4-11.2 6.4 8.8-8.8Zm3.6-3.6L21 11c.6.4.6 1.6 0 2l-2.5 1.5-2.6-2.5 2.6-2.5ZM6.1 2.1l11.2 6.4-2.4 2.4-8.8-8.8Z"/></svg>Google Play</a>
+            <a class="store" href="https://apps.apple.com/app/id6832417857" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.4 12.6c0-2.6 2.1-3.8 2.2-3.9-1.2-1.8-3.1-2-3.7-2-1.6-.2-3.1.9-3.9.9-.8 0-2-.9-3.4-.9-1.7 0-3.3 1-4.2 2.6-1.8 3.1-.5 7.7 1.3 10.2.9 1.2 1.9 2.6 3.2 2.6 1.3-.1 1.8-.8 3.3-.8 1.6 0 2 .8 3.4.8 1.4 0 2.3-1.3 3.1-2.5 1-1.4 1.4-2.8 1.4-2.9 0 0-2.7-1-2.7-4.1ZM13.9 4.9c.7-.9 1.2-2 1.1-3.2-1 0-2.3.7-3 1.6-.7.8-1.2 2-1.1 3.1 1.1.1 2.3-.6 3-1.5Z"/></svg>App Store</a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
 </section>
+
+<!-- ===================== INFO ===================== -->
+<section class="block" id="info">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">Information</div>
+      <h2><span lang="ko">안내</span><span lang="en">Information</span></h2>
+    </div>
+    <div class="info">
+      <a href="/support"><strong><span lang="ko">고객지원</span><span lang="en">Support</span></strong><span lang="ko">문의, 오류 제보, 계정 삭제 안내</span><span lang="en">Contact, bug reports, account deletion</span></a>
+      <a href="/terms"><strong><span lang="ko">이용약관</span><span lang="en">Terms of Service</span></strong><span lang="ko">서비스 이용 조건</span><span lang="en">Conditions for using our services</span></a>
+      <a href="/privacy"><strong><span lang="ko">개인정보 처리방침</span><span lang="en">Privacy Policy</span></strong><span lang="ko">개인정보 처리 기준</span><span lang="en">How we handle personal information</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CONTACT ===================== -->
+<section class="block" id="contact">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">Contact</div>
+      <h2><span lang="ko">문의</span><span lang="en">Contact</span></h2>
+    </div>
+    <div class="contact">
+      <p><span lang="ko">게임 문의, 제휴, 피드백 모두 환영합니다.</span><span lang="en">Questions, partnerships, and feedback are all welcome.</span></p>
+      <a class="email" href="mailto:retrystudio1021@gmail.com">retrystudio1021@gmail.com</a>
+    </div>
+  </div>
+</section>
+
+</main>
 
 <footer>
-  <p class="footer-links">
-    <a href="/terms">이용약관 · Terms</a>
-    <a href="/privacy">개인정보 처리방침 · Privacy</a>
-    <a href="/support">고객지원 · Support</a>
-  </p>
-  <!-- 사업자 등록 후 아래 줄에 사업자등록번호, 통신판매업 신고번호를 추가하세요. -->
-  <p>리트라이스튜디오 (Retry Studio) | 대표자: 배연휘 (BAE YEON HUI)</p>
-  <p>© 2026 Retry Studio. All rights reserved.</p>
+  <div class="wrap">
+    <!-- 사업자 등록 후 아래 줄에 사업자등록번호, 통신판매업 신고번호를 추가하세요. -->
+    <p>리트라이스튜디오 (Retry Studio) | 대표자: 배연휘 (BAE YEON HUI)</p>
+    <p>© 2026 Retry Studio. All rights reserved.</p>
+  </div>
 </footer>
+
+<script>
+  (function () {
+    var root = document.documentElement;
+    function setLang(l) {
+      root.setAttribute('data-lang', l);
+      root.lang = l;
+      try { localStorage.setItem('rs-lang', l); } catch (e) {}
+    }
+    document.querySelectorAll('.lang-switch button').forEach(function (b) {
+      b.addEventListener('click', function () { setLang(b.getAttribute('data-set')); });
+    });
+    // 기존 #ko / #en 링크 호환
+    window.addEventListener('hashchange', function () {
+      if (location.hash === '#ko' || location.hash === '#en') setLang(location.hash.slice(1));
+    });
+    var header = document.querySelector('.site-header');
+    function onScroll() { header.classList.toggle('scrolled', window.scrollY > 40); }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  })();
+</script>
 
 </body>
 </html>

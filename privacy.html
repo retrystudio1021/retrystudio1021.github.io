@@ -1,34 +1,55 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" data-lang="ko">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>개인정보 처리방침 | Privacy Policy | 리트라이스튜디오 Retry Studio</title>
-<style>
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Segoe UI", Roboto, sans-serif;
-    line-height: 1.7;
-    color: #222;
-    max-width: 760px;
-    margin: 0 auto;
-    padding: 24px 16px 64px;
-  }
-  h1 { font-size: 1.6rem; margin-bottom: 0.5rem; }
-  h2 { font-size: 1.2rem; margin-top: 2.2rem; padding-bottom: 0.3rem; border-bottom: 1px solid #ddd; }
-  h3 { font-size: 1.02rem; margin-top: 1.4rem; }
-  table { border-collapse: collapse; width: 100%; margin: 0.6rem 0; }
-  th, td { border: 1px solid #ccc; padding: 8px 12px; text-align: left; }
-  th { background: #f5f5f5; width: 30%; }
-  ul { padding-left: 1.3rem; }
-  .meta { color: #555; }
-  .lang-nav { margin-bottom: 1.5rem; }
-  .lang-nav a { margin-right: 12px; }
-  .divider { margin: 4rem 0 2rem; border: 0; border-top: 2px solid #999; }
-</style>
+<meta name="theme-color" content="#0b1230">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/sub.css">
+<script>
+  (function () {
+    var lang = null, h = location.hash;
+    if (h === '#en' || h === '#ko') lang = h.slice(1);
+    else if (/-en$/.test(h)) lang = 'en';
+    else if (/-ko$/.test(h)) lang = 'ko';
+    if (!lang) { try { lang = localStorage.getItem('rs-lang'); } catch (e) {} }
+    if (lang !== 'ko' && lang !== 'en') lang = /^ko\b/i.test(navigator.language || 'ko') ? 'ko' : 'en';
+    document.documentElement.setAttribute('data-lang', lang);
+    document.documentElement.lang = lang;
+  })();
+</script>
 </head>
 <body>
 
-<p class="lang-nav"><a href="#ko">한국어</a><a href="#en">English</a></p>
+<header class="site-header">
+  <div class="wrap">
+    <a class="logo" href="/">RETRY<b>·</b>STUDIO</a>
+    <nav class="nav" aria-label="Main">
+      <a href="/#games"><span lang="ko">게임</span><span lang="en">Games</span></a>
+      <a href="/#info"><span lang="ko">안내</span><span lang="en">Information</span></a>
+      <a href="/#contact"><span lang="ko">문의</span><span lang="en">Contact</span></a>
+    </nav>
+    <div class="lang-switch" role="group" aria-label="Language">
+      <button type="button" data-set="ko">KO</button>
+      <button type="button" data-set="en">EN</button>
+    </div>
+  </div>
+</header>
+
+<div class="banner">
+  <img src="images/hero.jpg" alt="" width="1024" height="1024">
+  <div class="wrap">
+    <div class="kicker">Privacy Policy</div>
+    <div class="title"><span lang="ko">개인정보 처리방침</span><span lang="en">Privacy Policy</span></div>
+    <div class="blocks-deco" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+  </div>
+</div>
+
+<main class="doc">
+<div class="doc-panel">
 
 <!-- ===================== 한국어 ===================== -->
 <section id="ko" lang="ko">
@@ -136,7 +157,6 @@
 
 </section>
 
-<hr class="divider">
 
 <!-- ===================== English ===================== -->
 <section id="en" lang="en">
@@ -243,6 +263,20 @@
 <p>This Privacy Policy applies from 2026-11-02. If its contents change, we will notify you through a notice on our website.</p>
 
 </section>
+
+</div>
+<a class="back" href="/">← <span lang="ko">홈으로</span><span lang="en">Back to Home</span></a>
+</main>
+
+<footer>
+  <div class="wrap">
+    <!-- 사업자 등록 후 아래 줄에 사업자등록번호, 통신판매업 신고번호를 추가하세요. -->
+    <p>리트라이스튜디오 (Retry Studio) | 대표자: 배연휘 (BAE YEON HUI)</p>
+    <p>© 2026 Retry Studio. All rights reserved.</p>
+  </div>
+</footer>
+
+<script src="assets/sub.js"></script>
 
 </body>
 </html>
